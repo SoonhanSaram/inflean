@@ -26,12 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
     const storage = FlutterSecureStorage();
     final dio = Dio();
 
-    // localhost
-    const emulatorIp = '10.0.2.2:3000';
-    const simulatrIp = '127.0.0.1:3000';
-
-    final ip = Platform.isAndroid ? emulatorIp : simulatrIp;
-
     return DefaultLayout(
         child: SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
