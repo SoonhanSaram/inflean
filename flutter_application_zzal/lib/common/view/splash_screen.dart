@@ -29,30 +29,55 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkToken() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
     final dio = Dio();
 
+<<<<<<< HEAD
+    final dio = Dio();
+
+=======
+>>>>>>> e669288bd05ffd0ca263631d4df1b140787f219e
     try {
       final response = await dio.post(
         'http://$ip/auth/token',
         options: Options(
+<<<<<<< HEAD
           headers: {
             'authorization': 'Bearer $refreshToken',
           },
         ),
       );
 
+=======
+          headers: {'authorization': 'Bearer $refreshToken'},
+        ),
+      );
+
+      await storage.write(
+        key: ACCESS_TOKEN_KEY,
+        value: response.data['accessToken'],
+      );
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (_) => const RootTab(),
+          ),
+          (route) => false);
+    } catch (e) {
+>>>>>>> e669288bd05ffd0ca263631d4df1b140787f219e
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (_) => const LoginScreen(),
           ),
           (route) => false);
+<<<<<<< HEAD
     } catch (e) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (_) => const RootTab(),
           ),
           (route) => false);
+=======
+>>>>>>> e669288bd05ffd0ca263631d4df1b140787f219e
     }
   }
 
