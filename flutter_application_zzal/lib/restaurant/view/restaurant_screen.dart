@@ -28,9 +28,9 @@ class RestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FutureBuilder(future: future, builder: builder)
+        child: Center(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container())));
   }
 }
