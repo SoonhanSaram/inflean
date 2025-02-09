@@ -26,12 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
     const storage = FlutterSecureStorage();
     final dio = Dio();
 
-    // localhost
-    const emulatorIp = '10.0.2.2:3000';
-    const simulatrIp = '127.0.0.1:3000';
-
-    final ip = Platform.isAndroid ? emulatorIp : simulatrIp;
-
     return DefaultLayout(
         child: SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -94,16 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton.styleFrom(backgroundColor: PRIMARY_COLOR),
                   child: const Text('로그인')),
               TextButton(
-                onPressed: () async {
-                  const represhToken =
-                      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczODI1MjUwNiwiZXhwIjoxNzM4MzM4OTA2fQ.FYBdqy1AOoVoaIyU7Ho-3Om72VFPFWbWHepli8Omx4o';
-                  final response = await dio.post('http://$ip/auth/token',
-                      options: Options(headers: {
-                        'authorization': 'Bearer $represhToken',
-                      }));
-
-                  print(response.data);
-                },
+                onPressed: () async {},
                 style: TextButton.styleFrom(foregroundColor: Colors.black),
                 child: const Text('회원가입'),
               )
