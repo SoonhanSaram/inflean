@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_zzal/common/const/data.dart';
 import 'package:flutter_application_zzal/restaurant/component/restaurant_card.dart';
+import 'package:flutter_application_zzal/restaurant/model/restaurant_detail_model.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
 import 'package:flutter_application_zzal/restaurant/view/restaurant_detail_screen.dart';
 
@@ -36,7 +37,9 @@ class RestaurantScreen extends StatelessWidget {
               print(snapshot.data);
 
               if (!snapshot.hasData) {
-                return Container();
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               }
 
               return ListView.separated(
@@ -47,9 +50,11 @@ class RestaurantScreen extends StatelessWidget {
                     final pitem = RestaurantModel.fromJson(json: item);
                     return GestureDetector(
                         onTap: () {
+                          print(pitem.id);
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const RestaurantDetailScreen(),
+                              builder: (_) =>
+                                  RestaurantDetailScreen(id: pitem.id),
                             ),
                           );
                         },
