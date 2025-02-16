@@ -37,7 +37,7 @@ class RestaurantScreen extends StatelessWidget {
               print(snapshot.data);
 
               if (!snapshot.hasData) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -47,7 +47,7 @@ class RestaurantScreen extends StatelessWidget {
                     final item = snapshot.data![index];
 
                     // parsed
-                    final pitem = RestaurantModel.fromJson(json: item);
+                    final pitem = RestaurantModel.fromJson(item);
                     return GestureDetector(
                         onTap: () {
                           print(pitem.id);

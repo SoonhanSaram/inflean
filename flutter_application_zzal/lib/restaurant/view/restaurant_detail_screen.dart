@@ -37,12 +37,12 @@ class RestaurantDetailScreen extends StatelessWidget {
         future: getRestaurantDetail(),
         builder: (_, AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          final item = RestaurantDetailModel.fromJson(json: snapshot.data!);
+          final item = RestaurantDetailModel.fromJson(snapshot.data!);
 
           return CustomScrollView(
             slivers: [
@@ -70,7 +70,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   SliverPadding renderProducts(
       {required List<RestaurantProductModel> products}) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
@@ -88,7 +88,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   SliverPadding renderLable() {
-    return SliverPadding(
+    return const SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverToBoxAdapter(
         child: Text(
