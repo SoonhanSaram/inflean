@@ -2,34 +2,49 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_zzal/common/const/colors.dart';
 import 'package:flutter_application_zzal/common/const/data.dart';
+import 'package:flutter_application_zzal/common/dio/dio.dart';
 import 'package:flutter_application_zzal/common/layout/defalut_layout.dart';
+import 'package:flutter_application_zzal/common/secure_storage/secure_storage.dart';
 import 'package:flutter_application_zzal/common/view/root_tab.dart';
 import 'package:flutter_application_zzal/user/view/login_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   // deleteToken();
+  //   checkToken();
+  // }
+
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // deleteToken();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // ✅ 올바른 방식: didChangeDependencies()에서 Provider 사용
     checkToken();
   }
 
   void deleteToken() async {
+    final storage = ref.watch(secureStorageProvider);
+
     await storage.deleteAll();
   }
 
   void checkToken() async {
+    final storage = ref.watch(secureStorageProvider);
+
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final dio = Dio();
+    final dio = ref.watch(dioProvider);
 
     try {
       final response = await dio.post(

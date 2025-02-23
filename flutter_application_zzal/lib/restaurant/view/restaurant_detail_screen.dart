@@ -1,14 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_zzal/common/const/data.dart';
 import 'package:flutter_application_zzal/common/layout/defalut_layout.dart';
 import 'package:flutter_application_zzal/product/component/product_card.dart';
-import 'package:flutter_application_zzal/restaurant/component/dio/dio.dart';
 import 'package:flutter_application_zzal/restaurant/component/restaurant_card.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_detail_model.dart';
 import 'package:flutter_application_zzal/restaurant/repository/restaurant_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantDetailScreen extends StatelessWidget {
+class RestaurantDetailScreen extends ConsumerWidget {
   final String id;
 
   const RestaurantDetailScreen({
@@ -16,36 +14,14 @@ class RestaurantDetailScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Future<RestaurantDetailModel> getRestaurantDetail() async {
-    final dio = Dio();
-
-    dio.interceptors.add(
-      CustomInterceptor(storage: storage),
-    );
-
-    // final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
-    // final response = await dio.get(
-    //   'http://$ip/restaurant/$id',
-    //   options: Options(
-    //     headers: {'authorization': 'Bearer $accessToken'},
-    //   ),
-    // );
-
-    // return response.data;
-
-    final repository =
-        RestaurantRepository(dio, baseUrl: 'http://$ip/restaurant');
-
-    return repository.getRestaurantDetail(id: id);
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DefaultLayout(
       title: '불타는 떡볶이',
       child: FutureBuilder<RestaurantDetailModel>(
-        future: getRestaurantDetail(),
+        future: ref.watch(restaurantRepositoryProvider).getRestaurantDetail(
+              id: id,
+            ),
         builder: (_, AsyncSnapshot<RestaurantDetailModel> snapshot) {
           if (snapshot.hasError) {
             return Center(
