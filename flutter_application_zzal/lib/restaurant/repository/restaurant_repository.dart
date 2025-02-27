@@ -1,6 +1,7 @@
 import 'package:flutter_application_zzal/common/const/data.dart';
 import 'package:flutter_application_zzal/common/dio/dio.dart';
 import 'package:flutter_application_zzal/common/model/cursor_pagination_model.dart';
+import 'package:flutter_application_zzal/common/model/pagination_params.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -27,8 +28,12 @@ abstract class RestaurantRepository {
   // generic 을 사용한 T 지정 방법
   // http://$ip/restaurant
   @GET('/')
-  @Headers({'accessToken': 'true'})
-  Future<CursorPaginationModel<RestaurantModel>> paginate();
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<CursorPaginationModel<RestaurantModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 
   // http://$ip/restaurant/{id}
 
