@@ -22,6 +22,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String password = '';
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dio = ref.watch(dioProvider);
 
@@ -65,11 +70,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
                     String token = stringToBase64.encode(rawString);
-
-                    final response = await dio.post('http://$ip/auth/login',
-                        options: Options(headers: {
+                    print(token);
+                    final response = await dio.post(
+                      'http://$ip/auth/login',
+                      options: Options(
+                        headers: {
                           'authorization': 'Basic $token',
-                        }));
+                        },
+                      ),
+                    );
                     final refreshToken = response.data['refreshToken'];
                     final accessToken = response.data['accessToken'];
 

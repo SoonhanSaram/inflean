@@ -31,6 +31,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     // ✅ 올바른 방식: didChangeDependencies()에서 Provider 사용
     checkToken();
+    // deleteToken();
   }
 
   void deleteToken() async {
@@ -43,7 +44,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final storage = ref.watch(secureStorageProvider);
 
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
     final dio = ref.watch(dioProvider);
 
     try {
