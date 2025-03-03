@@ -1,28 +1,40 @@
 import 'package:flutter_application_zzal/common/model/cursor_pagination_model.dart';
 import 'package:flutter_application_zzal/common/model/pagination_params.dart';
+import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
 import 'package:flutter_application_zzal/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final restaurantDetailProvider =
+    Provider.family<RestaurantModel?, String>((ref, id) {
+  final state = ref.watch(restaurantProvider);
+
+  if (state is! CursorPaginationModel) {
+    return null;
+  }
+
+  return state.data.firstWhere((e) => e.id == id);
+});
 
 final restaurantProvider =
     StateNotifierProvider<RestaurantStateNotifier, CursorPaginationBase>(
   (ref) {
-    final respository = ref.watch(restaurantRepositoryProvider);
-    final notifier = RestaurantStateNotifier(respository: respository);
+    final repository = ref.watch(restaurantRepositoryProvider);
+    final notifier = RestaurantStateNotifier(repository: repository);
 
     return notifier;
   },
 );
 
 class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
-  final RestaurantRepository respository;
+  final RestaurantRepository repository;
 
   RestaurantStateNotifier({
-    required this.respository,
+    required this.repository,
   }) : super(CursorPaginationLoading()) {
     paginate();
   }
 
-  void paginate({
+  Future<void> paginate({
     int fetchCount = 20,
     // 추가로 데이터 더 가져오기
     // true - 추가로 데이터 더 가져옴
@@ -89,7 +101,7 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
         }
       }
 
-      final response = await respository.paginate(
+      final response = await repository.paginate(
         paginationParams: paginationParams,
       );
       // 데이터를 처음부터 가져오는 상황
@@ -111,5 +123,26 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
         message: '데이터를 가져오지 못했습니다.',
       );
     }
+  }
+
+  void getDetail({
+    required String id,
+  }) async {
+    if (state is! CursorPaginationModel) {
+      await this.paginate();
+    }
+
+    if (state is! CursorPaginationModel) {
+      return;
+    }
+
+    final pState = state as CursorPaginationModel;
+
+    final response = await repository.getRestaurantDetail(id: id);
+
+    state = pState.copyWith(
+        data: pState.data
+            .map<RestaurantModel>((e) => e.id == id ? response : e)
+            .toList());
   }
 }
