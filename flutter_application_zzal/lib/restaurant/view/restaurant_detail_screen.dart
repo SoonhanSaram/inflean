@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_zzal/common/layout/defalut_layout.dart';
 import 'package:flutter_application_zzal/product/component/product_card.dart';
+import 'package:flutter_application_zzal/rating/component/rating_card.dart';
 import 'package:flutter_application_zzal/restaurant/component/restaurant_card.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_detail_model.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
@@ -36,7 +37,7 @@ class _RestaurantDetailScreenState
     final state = ref.watch(restaurantDetailProvider(widget.id));
 
     if (state == null) {
-      return DefaultLayout(
+      return const DefaultLayout(
         child: Center(
           child: CircularProgressIndicator(),
         ),
@@ -54,6 +55,18 @@ class _RestaurantDetailScreenState
           if (state is RestaurantDetailModel) renderLable(),
           if (state is RestaurantDetailModel)
             renderProducts(products: state.products),
+          const SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            sliver: SliverToBoxAdapter(
+              child: RatingCard(
+                avataImage: AssetImage('asset/img/logo/codefactory_logo.png'),
+                images: [],
+                rating: 4,
+                email: 'jc@codefactory.ai',
+                content: '여기는 시킬만 한 것 같네요',
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -62,7 +75,7 @@ class _RestaurantDetailScreenState
 
 SliverPadding renderLoading() {
   return SliverPadding(
-    padding: EdgeInsets.symmetric(
+    padding: const EdgeInsets.symmetric(
       horizontal: 16.0,
       vertical: 16.0,
     ),
@@ -73,8 +86,8 @@ SliverPadding renderLoading() {
           (index) => Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: SkeletonParagraph(
-                style:
-                    SkeletonParagraphStyle(lines: 5, padding: EdgeInsets.zero)),
+                style: const SkeletonParagraphStyle(
+                    lines: 5, padding: EdgeInsets.zero)),
           ),
         ),
       ),
