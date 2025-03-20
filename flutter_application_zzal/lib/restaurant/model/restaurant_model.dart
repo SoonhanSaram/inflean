@@ -1,5 +1,5 @@
 // 데이터의 정의를 확실하게 함으로 오작동을 방지하기 위함
-import 'package:flutter_application_zzal/common/const/data.dart';
+import 'package:flutter_application_zzal/common/model/model_with_id.dart';
 import 'package:flutter_application_zzal/common/utils/data_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +8,8 @@ part 'restaurant_model.g.dart';
 enum RestaurantPriceRange { expensive, medium, cheap }
 
 @JsonSerializable()
-class RestaurantModel {
+class RestaurantModel implements IModelWithId {
+  @override
   final String id;
   final String name;
   @JsonKey(

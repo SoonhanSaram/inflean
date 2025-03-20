@@ -2,6 +2,7 @@ import 'package:flutter_application_zzal/common/const/data.dart';
 import 'package:flutter_application_zzal/common/dio/dio.dart';
 import 'package:flutter_application_zzal/common/model/cursor_pagination_model.dart';
 import 'package:flutter_application_zzal/common/model/pagination_params.dart';
+import 'package:flutter_application_zzal/common/repository/base_pagination_repository.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -19,7 +20,8 @@ final restaurantRepositoryProvider = Provider((ref) {
 });
 
 @RestApi()
-abstract class RestaurantRepository {
+abstract class RestaurantRepository
+    implements IBasePaginationRepository<RestaurantModel> {
   //  http://$ip/restaurant
 
   factory RestaurantRepository(Dio dio, {String baseUrl}) =
@@ -27,6 +29,7 @@ abstract class RestaurantRepository {
 
   // generic 을 사용한 T 지정 방법
   // http://$ip/restaurant
+  @override
   @GET('/')
   @Headers({
     'accessToken': 'true',

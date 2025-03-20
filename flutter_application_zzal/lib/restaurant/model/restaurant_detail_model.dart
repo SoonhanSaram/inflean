@@ -1,4 +1,3 @@
-import 'package:flutter_application_zzal/common/const/data.dart';
 import 'package:flutter_application_zzal/common/utils/data_utils.dart';
 import 'package:flutter_application_zzal/restaurant/model/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';
