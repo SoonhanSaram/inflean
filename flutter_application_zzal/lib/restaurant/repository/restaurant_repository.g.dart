@@ -9,7 +9,11 @@ part of 'restaurant_repository.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _RestaurantRepository implements RestaurantRepository {
-  _RestaurantRepository(this._dio, {this.baseUrl, this.errorLogger});
+  _RestaurantRepository(
+    this._dio, {
+    this.baseUrl,
+    this.errorLogger,
+  });
 
   final Dio _dio;
 
@@ -18,9 +22,8 @@ class _RestaurantRepository implements RestaurantRepository {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<CursorPaginationModel<RestaurantModel>> paginate({
-    PaginationParams? paginationParams = const PaginationParams(),
-  }) async {
+  Future<CursorPaginationModel<RestaurantModel>> paginate(
+      {PaginationParams? paginationParams = const PaginationParams()}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
@@ -28,16 +31,23 @@ class _RestaurantRepository implements RestaurantRepository {
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<CursorPaginationModel<RestaurantModel>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<CursorPaginationModel<RestaurantModel>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
     late CursorPaginationModel<RestaurantModel> _value;
     try {
@@ -53,24 +63,29 @@ class _RestaurantRepository implements RestaurantRepository {
   }
 
   @override
-  Future<RestaurantDetailModel> getRestaurantDetail({
-    required String id,
-  }) async {
+  Future<RestaurantDetailModel> getRestaurantDetail(
+      {required String id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<RestaurantDetailModel>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/${id}',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options = _setStreamType<RestaurantDetailModel>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
     late RestaurantDetailModel _value;
     try {
@@ -95,7 +110,10 @@ class _RestaurantRepository implements RestaurantRepository {
     return requestOptions;
   }
 
-  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }
